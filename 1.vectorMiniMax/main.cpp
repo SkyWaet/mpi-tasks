@@ -5,6 +5,8 @@
 #include "mpi.h"
 
 int getRandomInteger(int lower, int upper);
+int getLeftBorder(int batchSize, int rank);
+int getRightBorder(int batchSize, int rank, int procNum, int size);
 void fillWithRandomValues(int *arr, int size);
 int findMinSingleThread(int *array, int from, int to);
 
@@ -35,14 +37,10 @@ int main(int argc, char *argv[])
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
 
     int *array = (int *)malloc(sizeof(int) * size);
-    int k = size / ProcNum;
-    int i1 = k * ProcRank;
-    int i2 = k * (ProcRank + 1);
+    int batchSize = size / ProcNum;
 
-    if (ProcRank == ProcNum - 1)
-    {
-        i2 = size;
-    }
+    int leftBorder = getLeftBorder(batchSize, ProcRank);
+    int rightBorder = getRightBorder(batchSize, ProcRank, ProcNum, size);
 
     if (ProcRank == 0)
     {
@@ -55,15 +53,17 @@ int main(int argc, char *argv[])
         startTime = MPI_Wtime();
         for (int i = 1; i < ProcNum; i++)
         {
-            MPI_Send(array + i1, i2 - i1, MPI_INT, i, 0, MPI_COMM_WORLD);
+            int threadLeftBorder = getLeftBorder(batchSize, i);
+            int threadRightBorder = getRightBorder(batchSize, i, ProcNum, size);
+            MPI_Send(array + threadLeftBorder, threadRightBorder - threadLeftBorder, MPI_INT, i, 0, MPI_COMM_WORLD);
         }
     }
     else
     {
-        MPI_Recv(array + i1, i2 - i1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+        MPI_Recv(array + leftBorder, rightBorder - leftBorder, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
     }
 
-    int localMin = findMinSingleThread(array, i1, i2);
+    int localMin = findMinSingleThread(array, leftBorder, rightBorder);
 
     int reduceResult = MPI_Reduce(&localMin, &totalMin, 1, MPI_INT, MPI_MIN, 0, MPI_COMM_WORLD);
 
@@ -80,6 +80,21 @@ int main(int argc, char *argv[])
     free(array);
     MPI_Finalize();
     return 0;
+}
+
+int getLeftBorder(int batchSize, int rank)
+{
+    return batchSize * rank;
+}
+
+int getRightBorder(int batchSize, int rank, int procNum, int size)
+{
+    if (rank == procNum - 1)
+    {
+        return size;
+    }
+
+    return batchSize * (rank + 1);
 }
 
 int findMinSingleThread(int *array, int from, int to)
@@ -104,6 +119,6 @@ void fillWithRandomValues(int *arr, int size)
 {
     for (int i = 0; i < size; i++)
     {
-        arr[i] = getRandomInteger(-100, 100);
+        arr[i] = getRandomInteger(-1000, 1000);
     }
 }
