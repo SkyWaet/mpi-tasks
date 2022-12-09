@@ -17,44 +17,42 @@ int main(int argc, char *argv[])
 
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
 
-    for (int i = 1; i <= 10000000; i *= 10)
+    for (int i = 1; i <= 100000000; i *= 10)
     {
         double sendTime = 0;
         double receiveTime = 0;
-
-        char *testString = generateStringForTest(i);
-        char *buffer = (char *)malloc(i + 1);
 
         for (int j = 0; j < 30; j++)
         {
 
             if (procRank == 0)
             {
-               // printf("String to send: %s\n", testString);
+                char *testString = generateStringForTest(i);
+                //printf("String to send: %s\n", testString);
                 double before = MPI_Wtime();
-                MPI_Send(testString, i + 1, MPI_CHAR, 1, 0, MPI_COMM_WORLD);
+                MPI_Send(testString, i, MPI_CHAR, 1, 0, MPI_COMM_WORLD);
                 double after = MPI_Wtime();
                 sendTime += after - before;
+                free(testString);
             }
             else
             {
-                
+                char *buffer = (char *)malloc(sizeof(char) * (i+1));
                 double before = MPI_Wtime();
-                MPI_Recv(buffer, i + 1, MPI_CHAR, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &Status);
+                MPI_Recv(buffer, i, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &Status);
                 double after = MPI_Wtime();
                 receiveTime += after - before;
                 //printf("Received string: %s\n", buffer);
+                free(buffer);
             }
             MPI_Barrier(MPI_COMM_WORLD);
         }
         if (procRank == 0)
         {
-            printf("Avg send time for string of size %d: %.15f\n", i, sendTime / 30);
-            printf("Avg receive time for string of size %d: %.15f\n", i, receiveTime / 30);
+            printf("Avg send time for string of size %d: %.30f\n", i, sendTime / 30);
+            printf("Avg receive time for string of size %d: %.30f\n", i, receiveTime / 30);
         }
 
-        free(buffer);
-        free(testString);
         MPI_Barrier(MPI_COMM_WORLD);
     }
 
