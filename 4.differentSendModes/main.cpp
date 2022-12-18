@@ -6,14 +6,28 @@
 #include "mpi.h"
 #include <unistd.h>
 
+enum Mode
+{
+    standart = 1,
+    synchronous,
+    buffered,
+    ready
+};
+
 char *generateStringForTest(const int len);
 std::string generateRandomString(const int len);
+
+void sendMessage(Mode mode, char *testString, int size);
 
 int main(int argc, char *argv[])
 {
     MPI_Status Status;
 
     MPI_Init(&argc, &argv);
+
+    Mode activeMode = static_cast<Mode>(atoi(argv[1]));
+    std::cout << activeMode << std::endl;
+
     int procRank;
 
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
@@ -50,11 +64,11 @@ int main(int argc, char *argv[])
         }
         if (procRank == 0)
         {
-            printf("Avg send time for string of size %d: %.30f\n", i, sendTime / 30);
+            printf("Mode = %d, Avg send time for string of size %d: %.30f\n", activeMode, i, sendTime / 30);
         }
         else
         {
-            printf("Avg receive time for string of size %d: %.30f\n", i, receiveTime / 30);
+            printf("Mode = %d, Avg receive time for string of size %d: %.30f\n", activeMode, i, receiveTime / 30);
         }
 
         MPI_Barrier(MPI_COMM_WORLD);
@@ -64,6 +78,34 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+void sendMessage(Mode mode, char *testString, int size)
+{
+    switch (mode)
+    {
+    case standart:
+        MPI_Send(testString, size, MPI_CHAR, 1, 0, MPI_COMM_WORLD);
+        break;
+    case synchronous:
+        MPI_Ssend(testString, size, MPI_CHAR, 1, 0, MPI_COMM_WORLD);
+        break;
+    case buffered:
+    {
+
+        int buffSize = sizeof(char) * (size + 1);
+        char *bsendBuffer = (char *)malloc(buffSize);
+        MPI_Buffer_attach(bsendBuffer, buffSize + MPI_BSEND_OVERHEAD);
+        MPI_Bsend(testString, size, MPI_CHAR, 1, 0, MPI_COMM_WORLD);
+        MPI_Buffer_detach(bsendBuffer, &buffSize);
+        free(bsendBuffer);
+        break;
+    }
+    case ready:
+        MPI_Rsend(testString, size, MPI_CHAR, 1, 0, MPI_COMM_WORLD);
+        break;
+    default:
+        break;
+    }
+};
 
 char *generateStringForTest(const int len)
 {
