@@ -1,0 +1,38 @@
+Size = 0, thread = 2
+Single thread result: -98, elapsed time: 0.000001205000000, array size 100
+Multi-Thread result: -98, elapsed time: 0.000179833000000, number of threads: 2
+Size = 0, thread = 4
+Single thread result: -100, elapsed time: 0.000001014000000, array size 100
+Multi-Thread result: -100, elapsed time: 0.000221642000000, number of threads: 4
+Size = 0, thread = 8
+Single thread result: -100, elapsed time: 0.000001315000000, array size 100
+Multi-Thread result: -100, elapsed time: 0.000414725000000, number of threads: 8
+Size = 0, thread = 16
+Single thread result: -100, elapsed time: 0.000001102000000, array size 100
+Multi-Thread result: -100, elapsed time: 0.000818428000000, number of threads: 16
+
+Size = 1, thread = 2
+Single thread result: -100, elapsed time: 0.000048902000000, array size 10000
+Multi-Thread result: -100, elapsed time: 0.000233442000000, number of threads: 2
+Size = 1, thread = 4
+Single thread result: -100, elapsed time: 0.000039707000000, array size 10000
+Multi-Thread result: -100, elapsed time: 0.000357565000000, number of threads: 4
+Size = 1, thread = 8
+Single thread result: -100, elapsed time: 0.000039848000000, array size 10000
+Multi-Thread result: -100, elapsed time: 0.000609320000000, number of threads: 8
+Size = 1, thread = 16
+Single thread result: -100, elapsed time: 0.000061069000000, array size 10000
+Multi-Thread result: -100, elapsed time: 0.001276639000000, number of threads: 16
+
+Size = 2, thread = 2
+Single thread result: -100, elapsed time: 0.039975901000000, array size 10000000
+Multi-Thread result: -100, elapsed time: 0.042443393000000, number of threads: 2
+Size = 2, thread = 4
+Single thread result: -100, elapsed time: 0.039920718000000, array size 10000000
+Multi-Thread result: -100, elapsed time: 0.073747863000000, number of threads: 4
+Size = 2, thread = 8
+Single thread result: -100, elapsed time: 0.039937969000000, array size 10000000
+Multi-Thread result: -100, elapsed time: 0.120088022000000, number of threads: 8
+Size = 2, thread = 16
+Single thread result: -100, elapsed time: 0.058431325000000, array size 10000000
+Multi-Thread result: -100, elapsed time: 0.196780489000000, number of threads: 16

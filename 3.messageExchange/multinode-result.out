@@ -1,0 +1,53 @@
+Avg send time for string of size 1: 0.000395091333333333133079334765
+Avg receive time for string of size 1: 0.000000000000000000000000000000
+Avg send time for string of size 10: 0.000008360933333333616174144927
+Avg receive time for string of size 10: 0.000000000000000000000000000000
+Avg send time for string of size 100: 0.000008298533333334079048287067
+Avg receive time for string of size 100: 0.000000000000000000000000000000
+Avg send time for string of size 1000: 0.000008692433333332833645225660
+Avg receive time for string of size 1000: 0.000000000000000000000000000000
+Avg send time for string of size 10000: 0.000015787866666664798108920750
+Avg receive time for string of size 10000: 0.000000000000000000000000000000
+Avg send time for string of size 100000: 0.000079586866666668071258403105
+Avg receive time for string of size 100000: 0.000000000000000000000000000000
+Avg send time for string of size 1000000: 0.000979037400000017576581767820
+Avg receive time for string of size 1000000: 0.000000000000000000000000000000
+Avg send time for string of size 10000000: 0.063884496633333356929718149786
+Avg receive time for string of size 10000000: 0.000000000000000000000000000000
+Avg send time for string of size 100000000: 0.825878782200001437807657111989
+Avg receive time for string of size 100000000: 0.000000000000000000000000000000
+corrupted size vs. prev_size
+[g5:00629] *** Process received signal ***
+[g5:00629] Signal: Aborted (6)
+[g5:00629] Signal code:  (-6)
+[g5:00629] [ 0] /gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0(+0x13010)[0x7f90f9c5d010]
+[g5:00629] [ 1] /gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6(gsignal+0xca)[0x7f90f9ac1aba]
+[g5:00629] [ 2] /gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6(abort+0x165)[0x7f90f9ac2bf5]
+[g5:00629] [ 3] /gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6(+0x78c97)[0x7f90f9b03c97]
+[g5:00629] [ 4] /gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6(+0x7ffea)[0x7f90f9b0afea]
+[g5:00629] [ 5] /gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6(+0x80816)[0x7f90f9b0b816]
+[g5:00629] [ 6] /gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6(+0x81c9b)[0x7f90f9b0cc9b]
+[g5:00629] [ 7] /gnu/store/ja2d7jzvgcjbmrbig29mw7n9y65ljrma-ucx-1.8.1/lib/libucs.so.0(ucs_mpool_cleanup+0x85)[0x7f90f8090c25]
+[g5:00629] [ 8] /gnu/store/ja2d7jzvgcjbmrbig29mw7n9y65ljrma-ucx-1.8.1/lib/libucp.so.0(ucp_worker_destroy+0x2f9)[0x7f90f8124f89]
+[g5:00629] [ 9] /gnu/store/ifqp241jhmwril2jpdsib1irmix3s7f6-openmpi-4.0.2/lib/openmpi/mca_pml_ucx.so(mca_pml_ucx_cleanup+0x17b)[0x7f90f819693b]
+[g5:00629] [10] /gnu/store/ifqp241jhmwril2jpdsib1irmix3s7f6-openmpi-4.0.2/lib/libmpi.so.40(ompi_mpi_finalize+0x55c)[0x7f90f9feee6c]
+[g5:00629] [11] main[0x401478]
+[g5:00629] [12] /gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6(__libc_start_main+0xed)[0x7f90f9aada6d]
+[g5:00629] [13] main[0x4011ba]
+[g5:00629] *** End of error message ***
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+------------------------------------------------------------
+A process or daemon was unable to complete a TCP connection
+to another process:
+  Local host:    g5
+  Remote host:   g6
+This is usually caused by a firewall on the remote host. Please
+check that any firewall (e.g., iptables) has been disabled and
+try again.
+------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node g5 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
